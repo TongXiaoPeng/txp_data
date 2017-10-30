@@ -19,7 +19,7 @@
     init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver">
 		</property>
-		<property name="url" value="jdbc:mysql://127.0.0.1/bianla_qa"></property>
+		<property name="url" value="jdbc:mysql://127.0.0.1/txp"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="twoxfour"></property>
 		<!-- 初始化连接大小 -->
@@ -62,8 +62,8 @@
         <property name="dataSource" ref="dataSource" />  
         <property name="mapperLocations">
         	<list>
-        		<value>classpath*:dbmap/**/*.xml</value>
-        		<value>classpath*:dbmap/*.xml</value>
+        		<value>classpath*:com/data/web/dbmap/**/*.xml</value>
+        		<value>classpath*:com/data/web/dbmap/*.xml</value>
         	</list>
         </property>
     </bean>  
@@ -84,6 +84,7 @@
           lazy-init="true"/>  
     <!-- 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean-->  
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
-        <property name="basePackage" value="com.data.web.**.dao" />  
-    </bean>  
+        <property name="basePackage" value="com.data.web.dao" />  
+    </bean> 
+    
 </beans>  

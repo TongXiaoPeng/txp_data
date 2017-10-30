@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.web.dao.user.UserDao">
+    <resultMap type="com.data.web.model.user.UserModel" id="UserModel">
+        <result property="userId" column="userid"/>
+        <result property="userName" column="username"/>
+        <result property="passWord" column="password"/>
+    </resultMap>
+
+    <select id="login" parameterType="com.data.web.model.user.UserModel" resultMap="UserModel">
+        select * from
+        users where userName=#{userName} and passWord=#{passWord} limit 1
+    </select>
+
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultMap="UserModel">
+        select * from users where isDeleted = 0
+        <if test="params.userName!=null and params.userName!='' ">
+            and userName like #{params.userName}
+        </if>
+    </select>
+
+    <select id="getTotalUser" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from users
+        <where>
+            <if test="userName!=null and userName!='' ">
+                and userName like #{userName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.data.web.model.user.UserModel">
+    <selectKey keyProperty="userId" resultType="String" order="BEFORE">
+    	select uuid() from dual
+    </selectKey>
+        insert into users
+        (
+        userId,
+        userName,
+        password,
+        createName,
+        createTime,
+        updateName,
+        updateTime,
+        isDeleted,
+        remark
+        )
+        values
+        (
+        #{userId},
+        #{userName,jdbcType=VARCHAR},
+        #{passWord,jdbcType=VARCHAR},
+        #{createName,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateName,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{isDeleted,jdbcType=INT},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.data.web.model.user.UserModel">
+        update users
+        <set>
+            <if test="userName!=null and userName!='' ">
+                userName=#{userName},
+            </if>
+            <if test="passWord!=null and passWord!='' ">
+                passWord=#{passWord}
+            </if>
+        </set>
+        where userId=#{userId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from users
+        where userId=#{userId}
+    </delete>
+</mapper> 
