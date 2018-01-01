@@ -119,4 +119,26 @@ public class UserController {
 //        ResponseUtil.write(response, result);
 //        return null;
 //    }
+    
+    /**
+     * 修改个人资料
+     *
+     * @param user
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/modifyUserInfo")
+    public String modifyUserInfo(UserModel user, HttpServletResponse response) throws Exception {
+        int resultTotal = userService.updateUser(user);
+        JSONObject result = new JSONObject();
+        if (resultTotal > 0) {
+            result.put("success", true);
+        } else {
+            result.put("success", false);
+        }
+//        log.info("request: user/modifyPassword , user: " + user.toString());
+        ResponseUtil.write(response, result);
+        return null;
+    }
 }

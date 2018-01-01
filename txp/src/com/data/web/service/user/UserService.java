@@ -52,7 +52,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    public int addUser(UserModel user)throws Exception;
+    public UserModel addUser(UserModel user)throws Exception;
 
     /**
      * 删除用户
@@ -61,4 +61,8 @@ public interface UserService {
      * @return
      */
     public int deleteUser(String id)throws Exception;
+
+	public UserModel findByUserName(UserModel user);
+
+	public UserModel register(UserModel user);
 }

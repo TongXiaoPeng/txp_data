@@ -45,13 +45,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(UserModel user)throws Exception {
-        return userDao.add(user);
+    public UserModel addUser(UserModel user)throws Exception {
+    	userDao.add(user);
+		return user;
     }
 
     @Override
     public int deleteUser(String id)throws Exception {
         return userDao.delete(id);
     }
+
+	@Override
+	public UserModel findByUserName(UserModel user) {
+		return userDao.findByUserName(user);
+	}
+
+	@Override
+	public UserModel register(UserModel user) {
+		userDao.add(user);
+		return user;
+	}
 
 }

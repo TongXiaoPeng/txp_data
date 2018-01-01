@@ -57,8 +57,12 @@
         }
     </style>
     <script type="text/javascript">
-        function login() {
-            var userName = $("#userName").val();
+        function back(){
+        	var basePath = $("#basePath").val();
+       	 	window.location.href= basePath + "/system/loginView"; 
+        }
+        function register(){
+        	var userName = $("#userName").val();
             var passWord = $("#passWord").val();
             if (userName == null || userName == "") {
                 alert("用户名不能为空！");
@@ -68,81 +72,14 @@
                 alert("密码不能为空！");
                 return;
             }
-            $("#adminlogin").submit();
-
-        }
-        function toRegister(){
-        	var basePath = $("#basePath").val();
-       	 	window.location.href= basePath + "/system/registerView"; 
+            $("#adminRegister").submit();
         }
     </script>
 </head>
 <body>
 <input type="hidden" id="basePath" value="${pageContext.request.contextPath}">
-<form id=adminlogin method=post
-      name=adminlogin action="${pageContext.request.contextPath}/system/login">
-    <div></div>
-    <table style="margin: auto; width: 100%; height: 100%" border=0
-           cellSpacing=0 cellPadding=0>
-        <tbody>
-        <tr>
-            <td height=150>&nbsp;</td>
-        </tr>
-        <tr style="height: 254px">
-            <td>
-                <div style="background-color: #93b2b9;height:200px" >
-                <div style="padding:10px; float:left;width: 400px">
-                <span style="font-size: 60px; padding-left: 100px;">借书宝</span><span style="font-size: 20px; ">登录</span>
-                </div>
-                    <div style="padding:10px; width: 400px; float:right">
-                        <div style="text-align: left; width: 265px; height: 100px;margin:5px; ">
-                            <table border=0 cellSpacing=0 cellPadding=0 width="100%">
-                                <tr>
-                                	<td>账号:</td>
-                                    <td style="height: 45px">
-                                    	<input type="text" class=input value="${user.userName }" name="userName" id="userName">
-                                    </td>
-                                </tr>
-                                <tr>
-                                 <td>密码:</td>
-                                    <td>
-                                    	<input type="password" class=input value="${user.passWord }" name="passWord" id="passWord"/>
-                                 	</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div style="height: 1px; clear: both"></div>
-                        <div style="width: 380px; clear: both;margin:5px;">
-                            <table border=0 cellSpacing=0 cellPadding=0 width=300 >
-                                <tbody>
-
-                                <tr>
-                                    <td width=80 >
-                                    	<button type="button" id=btnLogin name=btnLogin onclick="javascript:login();" >登录</button>
-                                    </td>
-                                    <td width=80 >
-                                    	<button type="button" id=btnToRegister name=btnToRegister onclick="javascript:toRegister();" >注册</button>
-                                    </td>
-                                    <td width=80 >
-                                    	<button type="button" id=btnReset name=btnReset onclick="javascript:adminlogin.reset();" >重置</button>
-                                   	</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr style="height: 30%">
-            <td>&nbsp;</td>
-        </tr>
-        </tbody>
-    </table>
-</form>
-
 <form id=adminRegister method=post
-      name=adminRegister action="${pageContext.request.contextPath}/system/register" style="display:none">
+      name=adminRegister action="${pageContext.request.contextPath}/system/register" >
     <div></div>
     <table style="margin: auto; width: 100%; height: 100%" border=0
            cellSpacing=0 cellPadding=0>

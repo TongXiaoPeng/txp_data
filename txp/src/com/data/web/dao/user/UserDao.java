@@ -59,4 +59,6 @@ public interface UserDao {
      * @return
      */
     public int delete(String id);
+
+	public UserModel findByUserName(UserModel user);
 }

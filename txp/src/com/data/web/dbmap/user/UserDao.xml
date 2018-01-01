@@ -7,6 +7,7 @@
         <result property="userId" column="userid"/>
         <result property="userName" column="username"/>
         <result property="passWord" column="password"/>
+        <result property="phoneNumber" column="phoneNumber"/>
     </resultMap>
 
     <select id="login" parameterType="com.data.web.model.user.UserModel" resultMap="UserModel">
@@ -20,6 +21,9 @@
             and userName like #{params.userName}
         </if>
     </select>
+    <select id="findByUserName" parameterType="com.data.web.model.user.UserModel" resultMap="UserModel">
+        select * from users where isDeleted = 0 and userName = #{userName}
+    </select>
 
     <select id="getTotalUser" parameterType="java.util.Map" resultType="java.lang.Long">
         select count(*) from users
@@ -30,7 +34,7 @@
         </where>
     </select>
 
-    <insert id="add" parameterType="com.data.web.model.user.UserModel">
+    <insert id="add" parameterType="com.data.web.model.user.UserModel" >
     <selectKey keyProperty="userId" resultType="String" order="BEFORE">
     	select uuid() from dual
     </selectKey>
@@ -39,6 +43,7 @@
         userId,
         userName,
         password,
+        phoneNumber,
         createName,
         createTime,
         updateName,
@@ -51,11 +56,12 @@
         #{userId},
         #{userName,jdbcType=VARCHAR},
         #{passWord,jdbcType=VARCHAR},
+        #{phoneNumber,jdbcType=VARCHAR},
         #{createName,jdbcType=VARCHAR},
         #{createTime,jdbcType=TIMESTAMP},
         #{updateName,jdbcType=VARCHAR},
         #{updateTime,jdbcType=TIMESTAMP},
-        #{isDeleted,jdbcType=INT},
+        #{isDeleted,jdbcType=INTEGER},
         #{remark,jdbcType=VARCHAR}
         )
     </insert>
@@ -68,6 +74,9 @@
             </if>
             <if test="passWord!=null and passWord!='' ">
                 passWord=#{passWord}
+            </if>
+             <if test="phoneNumber !=null and  phoneNumber !='' ">
+                phoneNumber=#{phoneNumber}
             </if>
         </set>
         where userId=#{userId}

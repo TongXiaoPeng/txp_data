@@ -19,6 +19,8 @@ public class UserModel extends BaseModel{
 	 */
 	private String userName;
 	
+	private String  phoneNumber;
+	
 	/**
 	 * ”√ªß√‹¬Î
 	 */
@@ -46,6 +48,14 @@ public class UserModel extends BaseModel{
 
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }

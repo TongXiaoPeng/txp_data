@@ -24,11 +24,16 @@ public class LoginController {
 	
 //    private static final Logger log = Logger.getLogger(UserController.class);// 日志文件
     
-//	@RequestMapping(value="login")
-//	public ModelAndView login(){
-//		ModelAndView mView = new ModelAndView("login");
-//		return mView;
-//	}
+	@RequestMapping(value="loginView")
+	public ModelAndView loginView(){
+		ModelAndView mView = new ModelAndView("login");
+		return mView;
+	}
+	@RequestMapping(value="registerView")
+	public ModelAndView registerView(){
+		ModelAndView mView = new ModelAndView("register");
+		return mView;
+	}
 //	
 	/**
      * 登录
@@ -63,8 +68,41 @@ public class LoginController {
             return new ModelAndView("login");
         }
     }
-
-
+    
+    /**
+     * 注册
+     *
+     * @param user
+     * @param request
+     * @return
+     */
+    @RequestMapping("/register")
+    public ModelAndView register(UserModel user, HttpServletRequest request) {
+        try {
+            String MD5pwd = MD5Util.MD5Encode(user.getPassWord(), "UTF-8");
+//            System.out.println(MD5pwd);
+            user.setPassWord(MD5pwd);
+            UserModel hasUser = userService.findByUserName(user);
+        	
+        
+//        log.info("request: user/login , user: " + user.toString());
+	        if (hasUser != null) {
+	            request.setAttribute("errorMsg", "该用户名已存在");
+	            return new ModelAndView("login");
+	        } else {
+	        	UserModel resultUser = userService.register(user);
+	            HttpSession session = request.getSession();
+	            session.setAttribute("currentUser", resultUser);
+	//            MDC.put("userName", user.getUserName());
+	            return new ModelAndView("main");
+	        }
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	request.setAttribute("user", user);
+            request.setAttribute("errorMsg", "网络出错！");
+            return new ModelAndView("login");
+        }
+    }
     /**
      * 修改密码
      *

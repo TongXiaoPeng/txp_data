@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>ssm-demo系统主页</title>
+    <title>借书宝系统主页</title>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/jquery-easyui-1.3.3/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css"
@@ -41,14 +41,12 @@
             $("#dlg").dialog("open").dialog("setTitle", "修改密码");
             url = "${pageContext.request.contextPath}/system/modifyPassword?userId=${currentUser.userId}";
         }
-
         function closePasswordModifyDialog() {
             $("#dlg").dialog("close");
             $("#oldPassword").val("");
             $("#newPassword").val("");
             $("#newPassword2").val("");
         }
-
         function modifyPassword() {
             $("#fm").form("submit", {
                 url: url,
@@ -76,7 +74,31 @@
                 }
             });
         }
-
+        
+		function openUserInfoModifyDialog() {
+            $("#dlg1").dialog("open").dialog("setTitle", "个人资料");
+            url = "${pageContext.request.contextPath}/user/modifyUserInfo?userId=${currentUser.userId}";
+        }
+        function closeUserInfoModifyDialog() {
+            $("#dlg1").dialog("close");
+            
+        }
+        function modifyUserInfo() {
+            $("#fm1").form("submit", {
+                url: url,
+                success: function (result) {
+                    var result = eval('(' + result + ')');
+                    if (result.success) {
+                        $.messager.alert("系统提示", "修改成功！");
+                        closePasswordModifyDialog();
+                    } else {
+                        $.messager.alert("系统提示", "修改失败");
+                        return;
+                    }
+                }
+            });
+        }
+        
         function logout() {
             $.messager
                     .confirm(
@@ -113,31 +135,26 @@
 <div region="west" style="width: 200px;height:500px;" title="导航菜单"
      split="true">
     <div class="easyui-accordion">
-
-        <!-- <div title="课程管理" data-options="iconCls:'icon-shujias'"
-             style="padding:10px">
-            <a
-                    href="javascript:openTab('课程管理','storeManage.jsp','icon-shujia')"
-                    class="easyui-linkbutton"
-                    data-options="plain:true,iconCls:'icon-shujia'"
-                    style="width: 150px;"> 课程管理</a>
-        </div>
-        <div title="考试管理" data-options="iconCls:'icon-shuji'"
-             style="padding:10px">
-            <a href="javascript:openTab('题目管理','allBooksManage.jsp','icon-shuben')"
+		<div title="借书宝" data-options="iconCls:'icon-jiaocai'"
+             style="padding:10px;border:none;">
+            <a href="javascript:openTab(' 我的书籍','book/myBooksManage','icon-shuben')"
                class="easyui-linkbutton"
                data-options="plain:true,iconCls:'icon-shuben'"
-               style="width: 150px;">题目管理</a>
-            <a href="javascript:openTab(' 考卷管理','allBooksManage.jsp','icon-shuben')"
-            	class="easyui-linkbutton"
-           		data-options="plain:true,iconCls:'icon-shuben'"
-            	style="width: 150px;">考卷管理</a>
-        </div> -->
+               style="width: 150px;"> 我的书籍</a>
+            <a href="javascript:openTab(' 借书','book/allBooksManage','icon-shujia')"
+               class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-shujia'"
+               style="width: 150px;"> 借书</a>
+        </div>
         <div title="系统管理" data-options="iconCls:'icon-item'"
              style="padding:10px;border:none;">
-            <a href="javascript:openTab(' 管理员列表','user/userManage','icon-lxr')"
+           <!--  <a href="javascript:openTab(' 管理员列表','user/userManage','icon-lxr')"
                class="easyui-linkbutton"
-               data-options="plain:true,iconCls:'icon-lxr'" style="width: 150px;"> 管理员列表</a> 
+               data-options="plain:true,iconCls:'icon-lxr'" style="width: 150px;"> 管理员列表</a>  -->
+            <a href="javascript:openUserInfoModifyDialog()"
+               class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-lxr'"
+               style="width: 150px;"> 个人资料</a>
             <a href="javascript:openPasswordModifyDialog()"
                class="easyui-linkbutton"
                data-options="plain:true,iconCls:'icon-modifyPassword'"
@@ -147,6 +164,7 @@
                data-options="plain:true,iconCls:'icon-exit'"
                style="width: 150px;">安全退出</a>
         </div>
+        
     </div>
 </div>
 <div id="dlg" class="easyui-dialog"
@@ -187,6 +205,35 @@
     <a href="javascript:modifyPassword()" class="easyui-linkbutton"
        iconCls="icon-ok">保存</a><a
         href="javascript:closePasswordModifyDialog()"
+        class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+</div>
+
+<div id="dlg1" class="easyui-dialog"
+     style="width: 400px;height:250px;padding: 10px 20px" closed="true"
+     buttons="#dlg1-buttons">
+    <form id="fm1" method="post">
+        <table cellspacing="8px">
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" id="userName" name="userName"
+                           value="${currentUser.userName }" readonly="readonly"
+                           style="width: 200px"/>
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话：</td>
+                <td><input type="text" id="phoneNumber" name="phoneNumber"
+                		value="${currentUser.phoneNumber}"
+                           class="easyui-validatebox" required="true" style="width: 200px"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg1-buttons">
+    <a href="javascript:modifyUserInfo()" class="easyui-linkbutton"
+       iconCls="icon-ok">保存</a><a
+        href="javascript:closeUserInfoModifyDialog()"
         class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 </div>
 </body>

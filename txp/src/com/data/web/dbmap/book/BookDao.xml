@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.web.dao.book.BookDao">
+    <resultMap type="com.data.web.model.book.BookModel" id="BookModel">
+    	<result property="bookId" column="bookId"/>
+        <result property="userId" column="userId"/>
+        <result property="bookName" column="bookName"/>
+        <result property="bookType" column="bookType"/>
+        <result property="borrowType" column="borrowType"/>
+    </resultMap>
+
+
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.dto.BookDto">
+        select b.*,u.username as userName,u.phoneNumber from books b
+        left join users u on u.userid = b.userId
+        where b.isDeleted = 0
+        <if test="params.bookName!=null and params.bookName!='' ">
+            and b.bookName like #{params.bookName} 
+        </if>
+        <if test="params.bookType !=null and params.bookType !='' ">
+            and b.bookType like #{params.bookType}
+        </if>
+        <if test="params.borrowType !=null and params.borrowType !='' ">
+            and b.borrowType like #{params.borrowType} 
+        </if>
+        <if test="params.userId!=null and params.userId!='' ">
+            and b.userId = #{params.userId}
+        </if>
+    </select>
+
+    <select id="getTotalBook" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from books
+        <where>
+            <if test="bookName!=null and bookName!='' ">
+                and bookName like #{bookName}
+            </if>
+            <if test="params.bookType !=null and params.bookType !='' ">
+            and b.bookType like #{params.bookType}
+        </if>
+        <if test="params.borrowType !=null and params.borrowType !='' ">
+            and b.borrowType like #{params.borrowType} 
+        </if>
+            <if test="params.userId!=null and params.userId!='' ">
+            and userId = #{params.userId}
+        </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.data.web.model.book.BookModel" >
+    <selectKey keyProperty="bookId" resultType="String" order="BEFORE">
+    	select uuid() from dual
+    </selectKey>
+        insert into books
+        (
+        bookId,
+        userId,
+        bookName,
+        bookType,
+        borrowType,
+        createName,
+        createTime,
+        updateName,
+        updateTime,
+        isDeleted,
+        remark
+        )
+        values
+        (
+        #{bookId},
+        #{userId,jdbcType=VARCHAR},
+        #{bookName,jdbcType=VARCHAR},
+        #{bookType,jdbcType=VARCHAR},
+        #{borrowType,jdbcType=VARCHAR},
+        #{createName,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{updateName,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP},
+        #{isDeleted,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.data.web.model.book.BookModel">
+        update books
+        <set>
+            <if test="bookName !=null and bookName !='' ">
+                bookName=#{bookName},
+            </if>
+            <if test="bookType !=null and bookType !='' ">
+                bookType=#{bookType},
+            </if>
+             <if test="borrowType !=null and  borrowType !='' ">
+                borrowType=#{borrowType}
+            </if>
+        </set>
+        where bookId=#{bookId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from books
+        where bookId=#{bookId}
+    </delete>
+</mapper> 
