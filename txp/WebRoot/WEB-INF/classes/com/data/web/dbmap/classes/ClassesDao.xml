@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.web.dao.classes.ClassesDao">
+    <resultMap type="com.data.web.model.classes.ClassesModel" id="ClassesModel">
+    	<result property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="className" column="className"/>
+        <result property="classLevel" column="classLevel"/>
+    </resultMap>
+
+
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.dto.BookDto">
+        select id,class_name as className,class_level as classLevel from class 
+        where is_delete = 0
+        <if test="params.className!=null and params.className!='' ">
+            and class_name like #{params.className} 
+        </if>
+        <if test="params.classLevel !=null and params.classLevel !='' ">
+            and class_level like #{params.classLevel}
+        </if>
+    </select>
+
+    <select id="getTotalClass" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from class
+        <where>
+            <if test="className!=null and className!='' ">
+                and class_name like #{className}
+            </if>
+            <if test="params.classLevel !=null and params.classLevel !='' ">
+            and b.class_level like #{params.classLevel}
+        	</if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.data.web.model.classes.ClassesModel" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+    	select uuid() from dual
+    </selectKey>
+        insert into class
+        (
+        id,
+        class_name,
+        class_level,
+        created,
+        modified,
+        is_delete,
+        remark
+        )
+        values
+        (
+        #{id},
+        #{className,jdbcType=VARCHAR},
+        #{classLevel,jdbcType=INTEGER},
+        #{created,jdbcType=TIMESTAMP},
+        #{modified,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.data.web.model.classes.ClassesModel">
+        update class
+        <set>
+            <if test="className !=null and className !='' ">
+                class_name=#{className},
+            </if>
+            <if test="classLevel !=null and classLevel !='' ">
+                class_level=#{classLevel},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+        update class set is_delete = 1 
+        where id=#{id}
+    </update>
+    
+    <select id="findById" parameterType="java.lang.String" resultType="com.data.web.model.classes.ClassesModel">
+        select id,class_name as className,class_level as classLevel from class 
+        where is_delete = 0 and id=#{id}
+    </select>
+    
+    <select id="list" resultType="com.data.web.model.classes.ClassesModel">
+        select id,class_name as className,class_level as classLevel from class 
+        where is_delete = 0
+    </select>
+</mapper> 

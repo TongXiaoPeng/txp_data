@@ -19,7 +19,7 @@
     init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver">
 		</property>
-		<property name="url" value="jdbc:mysql://127.0.0.1/txp"></property>
+		<property name="url" value="jdbc:mysql://127.0.0.1/interactive_teach"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="twoxfour"></property>
 		<!-- 初始化连接大小 -->

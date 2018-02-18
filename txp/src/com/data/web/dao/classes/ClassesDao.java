@@ -1,9 +1,9 @@
-package com.data.web.dao.book;
+package com.data.web.dao.classes;
 
 import java.util.List;
 import java.util.Map;
 
-import com.data.web.model.book.BookModel;
+import com.data.web.model.classes.ClassesModel;
 import com.data.web.model.system.Page;
 
 
@@ -12,7 +12,7 @@ import com.data.web.model.system.Page;
  * @author txp
  * @date 2017-10-29 上午1:28:24
  */
-public interface BookDao {
+public interface ClassesDao {
 
 
     /**
@@ -21,29 +21,29 @@ public interface BookDao {
      * @param map
      * @return
      */
-    public List<BookModel> listJson(Page<BookModel> page);
+    public List<ClassesModel> listJson(Page<ClassesModel> page);
 
     /**
      * @param map
      * @return
      */
-    public Long getTotalBook(Map<String, Object> map);
+    public Long getTotalClass(Map<String, Object> map);
 
     /**
      * 更新
      *
-     * @param book
+     * @param classes
      * @return
      */
-    public int update(BookModel book);
+    public int update(ClassesModel classes);
 
     /**
      * 新增
      *
-     * @param book
+     * @param classes
      * @return
      */
-    public int add(BookModel book);
+    public int add(ClassesModel classes);
 
     /**
      * 删除
@@ -52,5 +52,9 @@ public interface BookDao {
      * @return
      */
     public int delete(String id);
+
+	public ClassesModel findById(String id);
+
+	public List<ClassesModel> list();
 
 }
