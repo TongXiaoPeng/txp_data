@@ -5,27 +5,27 @@ import java.util.Date;
 import javax.persistence.MappedSuperclass;
 
 /**
- * »ù´¡model
+ * åŸºç¡€model
  * @author txp
- * @date 2017-10-29 ÉÏÎç12:01:43
+ * @date 2017-10-29 ï¿½ï¿½ï¿½ï¿½12:01:43
  */
 @MappedSuperclass
 public class BaseModel {
 
 	/**
-	 * ´´½¨Ê±¼ä
+	 * åˆ›å»ºæ—¶é—´
 	 */
 	private Date created;
 	/**
-	 * ¸ü¸ÄÊ±¼ä
+	 * ä¿®æ”¹æ—¶é—´
 	 */
 	private Date modified;
 	/**
-	 * ÊÇ·ñÉ¾³ı   0:·ñ ,1:ÊÇ
+	 * æ˜¯å¦åˆ é™¤  0:å¦ ,1:æ˜¯
 	 */
 	private int isDelete;
 	/**
-	 * ±¸×¢
+	 * å¤‡æ³¨
 	 */
 	private String remark;
 	

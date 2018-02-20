@@ -11,7 +11,7 @@
     </resultMap>
 
 
-    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.dto.BookDto">
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.model.classes.ClassesModel">
         select id,class_name as className,class_level as classLevel from class 
         where is_delete = 0
         <if test="params.className!=null and params.className!='' ">

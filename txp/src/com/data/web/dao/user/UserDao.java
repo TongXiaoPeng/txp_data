@@ -1,43 +1,19 @@
 package com.data.web.dao.user;
 
-import java.util.List;
-import java.util.Map;
 
-import com.data.web.model.system.Page;
 import com.data.web.model.user.UserModel;
 
 
 /**
  * 
  * @author txp
- * @date 2017-10-29 ÉÏÎç1:28:24
+ * @date 2017-10-29 ï¿½ï¿½ï¿½ï¿½1:28:24
  */
 public interface UserDao {
 
-    /**
-     * µÇÂ¼
-     *
-     * @param user
-     * @return
-     */
-    public UserModel login(UserModel user);
 
     /**
-     * ²éÑ¯
-     *
-     * @param map
-     * @return
-     */
-    public List<UserModel> listJson(Page<UserModel> page);
-
-    /**
-     * @param map
-     * @return
-     */
-    public Long getTotalUser(Map<String, Object> map);
-
-    /**
-     * ¸üÐÂ
+     * ï¿½ï¿½ï¿½ï¿½
      *
      * @param user
      * @return
@@ -45,20 +21,12 @@ public interface UserDao {
     public int update(UserModel user);
 
     /**
-     * ÐÂÔö
+     * ï¿½ï¿½ï¿½ï¿½
      *
      * @param user
      * @return
      */
     public int add(UserModel user);
 
-    /**
-     * É¾³ý
-     *
-     * @param id
-     * @return
-     */
-    public int delete(String id);
-
-	public UserModel findByUserName(UserModel user);
+	public UserModel findByUserName(String userName);
 }

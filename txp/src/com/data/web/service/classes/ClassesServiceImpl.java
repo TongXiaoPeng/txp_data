@@ -21,7 +21,7 @@ import com.data.web.util.ResultUtil;
 /**
  * 
  * @author txp
- * @date 2017-10-29 上午1:25:15
+ * @date 2017-10-29 锟斤拷锟斤拷1:25:15
  */
 @Service("classesService")
 public class ClassesServiceImpl implements ClassesService {
@@ -48,7 +48,7 @@ public class ClassesServiceImpl implements ClassesService {
     		classes.setModified(new Date());
     		classesDao.update(classes);
     		
-    		result = ResultUtil.getErrorMsg(true, 11, "修改成功");
+    		result = ResultUtil.getErrorMsg(true, 11, "淇敼鎴愬姛");
     		JSONObject data = new JSONObject();
     		data.put("classId", classes.getId());
         	data.put("className", classes.getClassName());
@@ -56,7 +56,7 @@ public class ClassesServiceImpl implements ClassesService {
         	result.put("data", data);
         	
     	}else{
-    		result = ResultUtil.getErrorMsg(false, 14, "参数有误");
+    		result = ResultUtil.getErrorMsg(false, 14, "鍙傛暟鏈夎");
     	}
     	
         return result;
@@ -79,14 +79,14 @@ public class ClassesServiceImpl implements ClassesService {
         	classes.setCreated(new Date());
         	classes.setIsDelete(0);
         	classesDao.add(classes);
-        	result = ResultUtil.getErrorMsg(true, 10, "新增成功");
+        	result = ResultUtil.getErrorMsg(true, 10, "娣诲姞鎴愬姛");
         	JSONObject data = new JSONObject();
         	data.put("classId", classes.getId());
         	data.put("className", classes.getClassName());
         	data.put("classLevel", classes.getClassLevel());
         	result.put("data", data);
     	}else{
-    		result = ResultUtil.getErrorMsg(false, 14, "参数有误");
+    		result = ResultUtil.getErrorMsg(false, 14, "鍙傛暟鏈夎");
     	}
 		return result;
     }
@@ -97,9 +97,9 @@ public class ClassesServiceImpl implements ClassesService {
     	if(postObj.has("classId")){
     		String classId = postObj.getString("classId");
     		classesDao.delete(classId);
-    		result = ResultUtil.getErrorMsg(true, 12, "删除成功");
+    		result = ResultUtil.getErrorMsg(true, 12, "鍒犻櫎鎴愬姛");
     	}else{
-    		result = ResultUtil.getErrorMsg(false, 14, "参数有误");
+    		result = ResultUtil.getErrorMsg(false, 14, "鍙傛暟鏈夎");
     	}
     	return result;
     }
@@ -118,7 +118,7 @@ public class ClassesServiceImpl implements ClassesService {
 				classList.add(classData);
 			}
 		}
-		result = ResultUtil.getErrorMsg(true, 10, "加载成功");
+		result = ResultUtil.getErrorMsg(true, 10, "鍔犺浇鎴愬姛");
 		JSONObject data = new JSONObject();
 		data.put("classList", classList);
 		result.put("data", data);

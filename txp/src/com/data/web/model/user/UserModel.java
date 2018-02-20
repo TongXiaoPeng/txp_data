@@ -3,36 +3,36 @@ package com.data.web.model.user;
 import com.data.web.model.system.BaseModel;
 
 /**
- * 用户表
+ * 鐢ㄦ埛
  * @author txp
- * @date 2017-10-29 上午12:06:04
+ * @date 2017-10-29 锟斤拷锟斤拷12:06:04
  */
 public class UserModel extends BaseModel{
 
 	/**
-	 * 用户id
+	 * 鐢ㄦ埛id
 	 */
-	private String userId;
+	private String id;
 	
 	/**
-	 * 用户名称
+	 * 鐢ㄦ埛鍚嶇О
 	 */
 	private String userName;
 	
-	private String  phoneNumber;
+	/**
+	 * 鐢ㄦ埛绫诲瀷 0锛氬鐢燂紱1锛氳�佸笀
+	 */
+	private Integer roleType;
 	
 	/**
-	 * 用户密码
+	 * 鐝骇id
+	 */
+	private String classId;
+	
+	/**
+	 * 瀵嗙爜
 	 */
 	private String passWord;
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 	public String getUserName() {
 		return userName;
@@ -50,12 +50,29 @@ public class UserModel extends BaseModel{
 		this.passWord = passWord;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public Integer getRoleType() {
+		return roleType;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setRoleType(Integer roleType) {
+		this.roleType = roleType;
 	}
+
+	public String getClassId() {
+		return classId;
+	}
+
+	public void setClassId(String classId) {
+		this.classId = classId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	
 }

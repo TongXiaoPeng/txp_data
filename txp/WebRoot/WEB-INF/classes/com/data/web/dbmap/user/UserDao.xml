@@ -4,86 +4,53 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.data.web.dao.user.UserDao">
     <resultMap type="com.data.web.model.user.UserModel" id="UserModel">
-        <result property="userId" column="userid"/>
-        <result property="userName" column="username"/>
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
         <result property="passWord" column="password"/>
-        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="roleType" column="role_type"/>
+        <result property="classId" column="class_id"/>
     </resultMap>
 
-    <select id="login" parameterType="com.data.web.model.user.UserModel" resultMap="UserModel">
-        select * from
-        users where userName=#{userName} and passWord=#{passWord} limit 1
+    <select id="findByUserName" parameterType="java.lang.String" resultMap="UserModel">
+        select id, user_name as userName,password as passWord, role_type as roleType, class_id as classId  from users where is_delete = 0 and user_name = #{userName}
     </select>
 
-    <select id="listJson" parameterType="com.data.web.model.system.Page" resultMap="UserModel">
-        select * from users where isDeleted = 0
-        <if test="params.userName!=null and params.userName!='' ">
-            and userName like #{params.userName}
-        </if>
-    </select>
-    <select id="findByUserName" parameterType="com.data.web.model.user.UserModel" resultMap="UserModel">
-        select * from users where isDeleted = 0 and userName = #{userName}
-    </select>
-
-    <select id="getTotalUser" parameterType="java.util.Map" resultType="java.lang.Long">
-        select count(*) from users
-        <where>
-            <if test="userName!=null and userName!='' ">
-                and userName like #{userName}
-            </if>
-        </where>
-    </select>
 
     <insert id="add" parameterType="com.data.web.model.user.UserModel" >
-    <selectKey keyProperty="userId" resultType="String" order="BEFORE">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
     	select uuid() from dual
     </selectKey>
         insert into users
         (
-        userId,
-        userName,
+        id,
+        user_name,
         password,
-        phoneNumber,
-        createName,
-        createTime,
-        updateName,
-        updateTime,
-        isDeleted,
+        role_type,
+        class_id,
+        created,
+        modified,
+        is_delete,
         remark
         )
         values
         (
-        #{userId},
+        #{id},
         #{userName,jdbcType=VARCHAR},
         #{passWord,jdbcType=VARCHAR},
-        #{phoneNumber,jdbcType=VARCHAR},
-        #{createName,jdbcType=VARCHAR},
-        #{createTime,jdbcType=TIMESTAMP},
-        #{updateName,jdbcType=VARCHAR},
-        #{updateTime,jdbcType=TIMESTAMP},
-        #{isDeleted,jdbcType=INTEGER},
+        #{roleType,jdbcType=INTEGER},
+        #{classId,jdbcType=VARCHAR},
+        #{created,jdbcType=TIMESTAMP},
+        #{modified,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER},
         #{remark,jdbcType=VARCHAR}
         )
     </insert>
 
     <update id="update" parameterType="com.data.web.model.user.UserModel">
-        update users
-        <set>
-            <if test="userName!=null and userName!='' ">
-                userName=#{userName},
-            </if>
-            <if test="passWord!=null and passWord!='' ">
-                passWord=#{passWord}
-            </if>
-             <if test="phoneNumber !=null and  phoneNumber !='' ">
-                phoneNumber=#{phoneNumber}
-            </if>
-        </set>
-        where userId=#{userId}
+        update users set
+        password=#{passWord,jdbcType=VARCHAR},
+        modified=#{modified,jdbcType=TIMESTAMP}
+        where id=#{id}
     </update>
 
-    <delete id="delete" parameterType="java.lang.String">
-        delete from users
-        where userId=#{userId}
-    </delete>
 </mapper> 

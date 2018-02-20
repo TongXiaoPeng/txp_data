@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.web.dao.study.StudyLogsDao">
+    <resultMap type="com.data.web.dao.study.StudyLogsDao" id="StudyLogsDao">
+    	<result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="logTitle" column="log_title"/>
+        <result property="logContent" column="log_content"/>
+    </resultMap>
+
+
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.model.study.StudyLogsModel">
+        select id,user_id as userId,log_title as logTitle,log_content as logContent from study_logs 
+        where is_delete = 0
+        <if test="params.userId!=null and params.userId!='' ">
+            and user_id = #{params.userId} 
+        </if>
+        order by created desc
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getTotalStudyLogs" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from study_logs
+        <where>
+            <if test="userId!=null and userId!='' ">
+                and user_id like #{userId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.data.web.model.study.StudyLogsModel" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+    	select uuid() from dual
+    </selectKey>
+        insert into study_logs
+        (
+        id,
+        user_id,
+        log_title,
+        log_content,
+        created,
+        modified,
+        is_delete,
+        remark
+        )
+        values
+        (
+        #{id},
+        #{userId,jdbcType=VARCHAR},
+        #{logTitle,jdbcType=VARCHAR},
+        #{logContent,jdbcType=VARCHAR},
+        #{created,jdbcType=TIMESTAMP},
+        #{modified,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.data.web.model.study.StudyLogsModel">
+        update study_logs
+       	<trim prefix="set" suffixOverrides=",">
+           <if test="logTitle !=null and logTitle !='' ">
+               log_title=#{logTitle},
+           </if>
+           <if test="logContent !=null and logContent !='' ">
+               log_content=#{logContent},
+           </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+        update study_logs set is_delete = 1 
+        where id=#{id}
+    </update>
+    
+    <select id="findById" parameterType="java.lang.String" resultType="com.data.web.model.study.StudyLogsModel">
+        select id,user_id as userId,log_title as logTitle,log_content as logContent from study_logs 
+        where is_delete = 0 and id=#{id}
+    </select>
+    
+</mapper> 

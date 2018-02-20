@@ -3,24 +3,24 @@ package com.data.web.model.classes;
 import com.data.web.model.system.BaseModel;
 
 /**
- * 班级表
+ * 鐝骇
  * @author txp
- * @date 2017-10-29 上午12:06:04
+ * @date 2017-10-29 锟斤拷锟斤拷12:06:04
  */
 public class ClassesModel extends BaseModel{
 
 	/**
-	 * 班级id
+	 * 鐝骇id
 	 */
 	private String id;
 	
 	/**
-	 * 班级名称
+	 * 鐝骇鍚嶇О
 	 */
 	private String className;
 	
 	/**
-	 * 班级等级
+	 * 鐝骇绛夌骇
 	 */
 	private Integer  classLevel;
 

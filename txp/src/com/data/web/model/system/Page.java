@@ -13,6 +13,7 @@ public class Page<T> {
 	public static String DEFAULT_PAGESIZE = "10";
 	private int pageNo; //当前页码
 	private int pageSize; // 每页行数
+	private int pageStart;//开始行数
 	private int totalRecord; // 总记录数
 	private int totalPage; // 总页数
 	private Map<String, Object> sumMap;
@@ -102,6 +103,14 @@ public class Page<T> {
 
 	public void setSumMap(Map<String, Object> sumMap) {
 		this.sumMap = sumMap;
+	}
+
+	public int getPageStart() {
+		return pageStart;
+	}
+
+	public void setPageStart(int pageStart) {
+		this.pageStart = pageStart;
 	}
 
 	
