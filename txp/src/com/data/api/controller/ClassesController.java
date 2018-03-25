@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
-@RequestMapping("/api/class")
+@RequestMapping("/api/classes")
 public class ClassesController {
     @Resource
     private ClassesService classesService;
@@ -45,7 +45,7 @@ public class ClassesController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value="/setClass", method = RequestMethod.POST)
+    @RequestMapping(value="/setClasses", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject setClass(
     		HttpServletRequest request,

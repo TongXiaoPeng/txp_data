@@ -53,4 +53,25 @@
         where id=#{id}
     </update>
 
+
+	<select id="findById" parameterType="java.lang.String" resultType="com.data.web.model.user.UserModel">
+        select 
+         id,
+         user_name as userName,
+         role_type as roleType,
+         class_id as classId
+        from users 
+        where is_delete = 0 and id=#{userId}
+    </select>
+    
+    
+    <select id="getTeacherList" parameterType="com.data.web.model.system.Page" resultType="com.data.web.model.user.UserModel">
+        select id,user_name as userName from users 
+        where is_delete = 0 and role_type=0
+        <if test="params.teacherName !=null and params.teacherName !='' ">
+            and user_name like '%'||#{params.teacherName}||'%'
+        </if>
+        order by created desc
+        LIMIT #{pageStart},#{pageSize}
+    </select>
 </mapper> 

@@ -84,6 +84,28 @@ public class SystemController {
         return result;
     }
 
+    /**
+     * 加载教师列表
+     *
+     * @param user
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/loadTeachers")
+    @ResponseBody
+    public JSONObject loadTeachers(HttpServletRequest request) throws Exception {
+    	String postContent = ApiUtil.getRequestContent(request);
+    	JSONObject postJson = JSONObject.fromObject(postContent);
+    	JSONObject result = new JSONObject();
+        try {
+        	result = userService.getTeacherList(postJson);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	result = ResultUtil.getErrorMsg(false, 11, "加载失败");
+        }
+        return result;
+    }
 
    
 }

@@ -1,6 +1,10 @@
 package com.data.web.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.data.web.dao.classes.ClassesDao;
 import com.data.web.dao.user.UserDao;
 import com.data.web.model.classes.ClassesModel;
+import com.data.web.model.study.StudyLogsModel;
+import com.data.web.model.system.Page;
 import com.data.web.model.user.UserModel;
 import com.data.web.service.user.UserService;
 import com.data.web.util.MD5Util;
@@ -158,6 +164,50 @@ public class UserServiceImpl implements UserService {
     		result = ResultUtil.getErrorMsg(false, 13, "参数有误");
     	}
         return result;
+	}
+
+
+	@Override
+	public JSONObject getTeacherList(JSONObject postJson) {
+		JSONObject result = new JSONObject();
+		int pageNo = 1;
+		int pageStart = 0;
+		int pageSize = 10;
+		if(postJson.has("pageNo")){
+			pageNo = postJson.getInt("pageNo");
+			
+		}
+		if(postJson.has("pageSize")){
+			pageSize = postJson.getInt("pageSize");
+		}
+		pageStart = (pageNo-1)*pageSize;
+		
+		Page<UserModel> page = new Page<UserModel>();
+		page.setPageNo(pageNo);
+		page.setPageSize(pageSize);
+		page.setPageStart(pageStart);
+		Map<String, Object> params = new HashMap<String, Object>();
+		if(postJson.has("teacherName")){
+			String teacherName = postJson.getString("teacherName");
+			params.put("teacherName", teacherName);
+		}
+		page.setParams(params);
+		List<UserModel> dataList = userDao.getTeacherList(page);
+		
+		List<JSONObject> userList = new ArrayList<JSONObject>();
+		if(dataList.size()>0){
+			for(UserModel user : dataList){
+				JSONObject userData = new JSONObject();
+				userData.put("teacherId", user.getId());
+				userData.put("teacherName", user.getUserName());
+				userList.add(userData);
+			}
+		}
+		result = ResultUtil.getErrorMsg(true, 10, "加载成功");
+		JSONObject data = new JSONObject();
+		data.put("teacherList", userList);
+		result.put("data", data);
+		return result;
 	}
 
 }

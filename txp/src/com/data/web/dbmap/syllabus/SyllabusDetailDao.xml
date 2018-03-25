@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.web.dao.syllabus.SyllabusDetailDao">
+    <resultMap type="com.data.web.model.syllabus.SyllabusDetailModel" id="SyllabusDetailModel">
+    	<result property="id" column="id"/>
+        <result property="syllabusId" column="syllabus_id"/>
+        <result property="sourceName" column="source_name"/>
+        <result property="weekType" column="week_type"/>
+        <result property="serial" column="serial"/>
+        <result property="isSingle" column="is_single"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="classId" column="class_id"/>
+    </resultMap>
+
+
+    <select id="listJson" parameterType="com.data.web.model.system.Page" resultType="com.data.web.model.syllabus.SyllabusDetailModel">
+        select 
+         id,
+         syllabus_id as syllabusId,
+         source_name as sourceName,
+         week_type as weekType,
+         serial as serial,
+         is_single as isSingle,
+         teacher_id as teacherId,
+         class_id as classId
+        from syllabus_sources 
+        where is_delete = 0
+        <if test="params.syllabusId!=null and params.syllabusId!='' ">
+            and syllabus_id = #{params.syllabusId} 
+        </if>
+        order by week_type,serial
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getTotalSyllabusDeatil" parameterType="java.util.Map" resultType="java.lang.Long">
+        select count(*) from syllabus_sources
+        <where>
+            <if test="syllabusId !=null and syllabusId !='' ">
+                and syllabus_id = #{syllabusId}
+            </if>
+        </where>
+    </select>
+
+ 	<select id="getList" parameterType="java.util.Map" resultType="com.data.web.dto.syllabus.SyllabusDetailDto">
+        select 
+         s.id as detailId,
+         s.syllabus_id as syllabusId,
+         s.source_name as sourceName,
+         s.week_type as weekType,
+         s.serial as serial,
+         s.is_single as isSingle,
+         s.teacher_id as teacherId,
+         u.user_name as teacherName,
+         s.class_id as classId,
+         c.class_name as className
+        from syllabus_sources s
+        left join users u on u.id=s.teacher_id
+        left join class c on c.id=s.class_id
+        where s.is_delete = 0
+        <if test="syllabusId != null and syllabusId != '' ">
+            and s.syllabus_id = #{syllabusId} 
+        </if>
+        order by week_type,serial
+       
+    </select>
+    <insert id="add" parameterType="com.data.web.model.syllabus.SyllabusDetailModel" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+    	select uuid() from dual
+    </selectKey>
+        insert into syllabus_sources
+        (
+        id,
+        syllabus_id,
+        source_name,
+        week_type,
+        serial,
+        is_single,
+        teacher_id,
+        class_id,
+        created,
+        modified,
+        is_delete,
+        remark
+        )
+        values
+        (
+        #{id},
+        #{syllabusId,jdbcType=VARCHAR},
+        #{sourceName,jdbcType=VARCHAR},
+        #{weekType,jdbcType=INTEGER},
+        #{serial,jdbcType=INTEGER},
+        #{isSingle,jdbcType=INTEGER},
+        #{teacherId,jdbcType=VARCHAR},
+        #{classId,jdbcType=INTEGER},
+        #{created,jdbcType=TIMESTAMP},
+        #{modified,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.data.web.model.syllabus.SyllabusDetailModel">
+        update syllabus_sources
+       	<trim prefix="set" suffixOverrides=",">
+           <if test="sourceName !=null and sourceName !='' ">
+               source_name=#{sourceName},
+           </if>
+           <if test="weekType !=null and weekType !='' ">
+               week_type=#{weekType},
+           </if>
+           <if test="serial !=null and serial !='' ">
+               serial=#{serial},
+           </if>
+           <if test="isSingle !=null and isSingle !='' ">
+               is_single=#{isSingle},
+           </if>
+           <if test="teacherId !=null and teacherId !='' ">
+               teacher_id=#{teacherId},
+           </if>
+           <if test="classId !=null and classId !='' ">
+               class_id=#{classId},
+           </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+        update syllabus_sources set is_delete = 1 
+        where id=#{id}
+    </update>
+    
+    <select id="findById" parameterType="java.lang.String" resultType="com.data.web.model.syllabus.SyllabusDetailModel">
+         select 
+         id,
+         syllabus_id as syllabusId,
+         source_name as sourceName,
+         week_type as weekType,
+         serial as serial,
+         is_single as isSingle,
+         teacher_id as teacherId,
+         class_id as classId
+        from syllabus_sources 
+        where is_delete = 0 and id=#{id}
+    </select>
+    
+</mapper> 

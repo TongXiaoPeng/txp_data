@@ -35,4 +35,11 @@ public interface UserService {
 
 
 	public JSONObject modifyPassword(JSONObject postJson);
+
+	/**
+	 * 加载教师列表
+	 * @param postJson
+	 * @return
+	 */
+	public JSONObject getTeacherList(JSONObject postJson);
 }
